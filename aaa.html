@@ -1,0 +1,140 @@
+<DOCTYPE html>
+<html>
+<head>
+<script
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+</script>
+
+<script>
+var currentNum=0;
+var num1="null", num2;
+var op_id=0;
+var last="null";
+
+function operate(a,b,c)
+{
+	if(c==1)
+	{
+		return a+b;
+	}
+	else if(c==2)
+	{
+		return a-b;
+	}
+	else if(c==3)
+	{
+		return a*b;
+	}
+	else if(c==4)
+	{
+		return a/b;
+	}
+}
+
+function add(num)
+{
+	if(currentNum<=999999999 && num<10)
+	{
+		if(last=="enter"){currentNum=0;num1="null";}
+		currentNum=currentNum*10 + num;
+		document.getElementById("maindisplay").innerHTML=currentNum;
+		last="num";
+	}
+	else if(num>11 && num<16 && (last=="num" || last=="enter")) <!-- Operation -->
+	{
+		if(num1=="null")
+		{
+			num1=currentNum;
+			currentNum=0;
+			op_id=num-11;
+		}
+		else
+		{
+			num2=currentNum;
+			num1=operate(num1,num2,op_id);
+			op_id=num-11;
+			document.getElementById("maindisplay").innerHTML=num1;
+			currentNum=0;
+		}
+		last="op";
+	}
+	else if(num==10 && last =="num" && num1 != "null"){
+	<!-- ENTER -->
+		num2=currentNum;
+		num1=operate(num1,num2,op_id);
+		document.getElementById("maindisplay").innerHTML=num1;
+		currentNum=0;
+		last="enter";
+	}
+	else if(num==11){
+		<!-- CLEAR -->
+		last = "null";
+		num1="null"; currentNum=0;
+		document.getElementById("maindisplay").innerHTML=currentNum;
+	}
+}
+
+</script>
+
+
+<style>
+.tabb{
+	width: 400px;
+	height: 400px;
+	background-color: #e5eecc;
+	text-align: center;
+	padding: 30px;
+	font: 20px arial, sans-serif;
+}
+.cell{
+	width: 98px;
+	height: 50px;
+	text-align: center;
+	background-color: #a2eaaa;
+	float: left;
+	border-width: 1px;
+	border-style: solid;
+	padding-top: 25px;
+}
+.cell:active{
+	font-weight:bold;
+}
+
+.display{
+	width:400px
+	height:70px;
+	padding:10px;
+	background-color: #41aba1;
+	text-align: right;
+}
+
+</style>
+
+</head>
+
+<body>
+<div class="tabb">
+simple calculator
+</br>
+
+	<div class="display" id="maindisplay">0</div></br>
+
+	<div class="cell" id="cell7" onclick='add(7)'>7</div>
+	<div class="cell" id="cell8" onclick='add(8)'>8</div>
+	<div class="cell" id="cell9" onclick='add(9)'>9</div>
+	<div class="cell" id="cellpl" onclick='add(12)'>+</div>
+	<div class="cell" id="cell4" onclick='add(4)'>4</div>
+	<div class="cell" id="cell5" onclick='add(5)'>5</div>
+	<div class="cell" id="cell6" onclick='add(6)'>6</div>
+	<div class="cell" id="cellmin" onclick='add(13)'>-</div>
+	<div class="cell" id="cell1" onclick='add(1)'>1</div>
+	<div class="cell" id="cell2" onclick='add(2)'>2</div>
+	<div class="cell" id="cell3" onclick='add(3)'>3</div>
+	<div class="cell" id="cellmul" onclick='add(14)'>*</div>
+	<div class="cell" id="cell0" onclick='add(0)'>0</div>
+	<div class="cell" id="cellclr" onclick="add(11)">C</div>	
+	<div class="cell" id="celldiv" onclick='add(15)'>/</div>
+	<div class="cell" id="cellent" onclick='add(10)'>enter</div>
+</div>
+</body>
+</html>
